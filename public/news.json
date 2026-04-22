@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "title": "Первая новость",
+        "description": "Описание первой новости",
+        "preview_image": "img1.jpg",
+        "full_image": "img1_big.jpg"
+    },
+    {
+        "id": 2,
+        "title": "Вторая новость",
+        "description": "Описание второй новости",
+        "preview_image": "img2.jpg",
+        "full_image": "img2_big.jpg"
+    }
+]
