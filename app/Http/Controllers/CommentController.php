@@ -31,12 +31,28 @@ class CommentController extends Controller
         return back()->with('success', 'Комментарий отправлен на модерацию.');
     }
 
+    public function indexPending()
+    {
+        $user = Auth::user();
+
+        if (!$user || !$user->role || $user->role->name !== 'admin') {
+            abort(403, 'У вас нет доступа к модерации комментариев.');
+        }
+
+        $comments = Comment::with(['user', 'post'])
+            ->where('is_approved', false)
+            ->latest()
+            ->paginate(10);
+
+        return view('comments.moderation', compact('comments'));
+    }
+
     public function approve(Comment $comment)
     {
         $user = Auth::user();
 
         if (!$user || !$user->role || $user->role->name !== 'admin') {
-            abort(403);
+            abort(403, 'У вас нет прав для подтверждения комментариев.');
         }
 
         $comment->update([
@@ -51,7 +67,7 @@ class CommentController extends Controller
         $user = Auth::user();
 
         if (!$user || !$user->role || $user->role->name !== 'admin') {
-            abort(403);
+            abort(403, 'У вас нет прав для удаления комментариев.');
         }
 
         $comment->delete();

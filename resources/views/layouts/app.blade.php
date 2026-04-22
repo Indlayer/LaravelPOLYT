@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News Project</title>
+    <title>NovaNews — новостной портал</title>
     <style>
         * {
             box-sizing: border-box;
@@ -341,7 +341,7 @@
 <body>
 <header class="topbar">
     <div class="container topbar-inner">
-        <a href="{{ route('posts.index') }}" class="brand">News Project</a>
+    <a href="{{ route('posts.index') }}" class="brand">NovaNews</a>
 
         <nav class="nav">
             <a href="{{ route('posts.index') }}">Новости</a>
@@ -354,15 +354,18 @@
             @endguest
 
             @auth
-                <span style="color:#cbd5e1;">Пользователь: {{ auth()->user()->name }}</span>
-                @can('create', App\Models\Post::class)
-                    <a href="{{ route('posts.create') }}">Создать новость</a>
-                @endcan
-                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                    @csrf
-                    <button type="submit" class="btn btn-primary">Выйти</button>
-                </form>
-            @endauth
+    <span style="color:#cbd5e1;">Пользователь: {{ auth()->user()->name }}</span>
+    @can('create', App\Models\Post::class)
+        <a href="{{ route('posts.create') }}">Создать новость</a>
+    @endcan
+    @if(auth()->user()->role && auth()->user()->role->name === 'admin')
+        <a href="{{ route('comments.moderation') }}">Модерация комментариев</a>
+    @endif
+    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+        @csrf
+        <button type="submit" class="btn btn-primary">Выйти</button>
+    </form>
+@endauth
         </nav>
 
         <form action="{{ route('posts.search') }}" method="GET" class="search-form">
@@ -384,7 +387,7 @@
 
 <footer class="footer">
     <div class="container">
-        <p style="margin:0;">Тимофей | учебный новостной сайт на Laravel</p>
+        <p style="margin:0;">© 2026 NovaNews | Разработчик: Тимофей Белов 243-323</p>
     </div>
 </footer>
 </body>

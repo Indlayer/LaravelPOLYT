@@ -15,10 +15,10 @@ Route::get('/about', function () {
 
 Route::get('/contacts', function () {
     $contacts = [
-        'company' => 'News Project',
+        'company' => 'NovaNews',
         'address' => 'Moscow',
         'phone' => '+7 999 123 45 67',
-        'email' => 'test@mail.com',
+        'email' => 'timofey@example.com',
     ];
 
     return view('contacts', compact('contacts'));
@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
+
+    Route::get('/comments/moderation', [CommentController::class, 'indexPending'])->name('comments.moderation');
     Route::post('/comments/{comment}/approve', [CommentController::class, 'approve'])->name('comments.approve');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
